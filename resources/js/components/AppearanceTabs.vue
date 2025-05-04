@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { useAppearance } from '@/composables/useAppearance';
-import { Sun } from 'lucide-vue-next'; // Hanya import Sun (tidak perlu Moon/Monitor)
+import { Sun } from 'lucide-vue-next';
 
-// Force light mode (opsional: bisa disesuaikan dengan implementasi `useAppearance`)
-const { appearance, updateAppearance } = useAppearance();
-updateAppearance('light'); // Set default ke light
+const { updateAppearance } = useAppearance();
+updateAppearance('light');
 </script>
 
 <template>

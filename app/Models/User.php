@@ -45,4 +45,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function tugasDosen()
+    {
+        return $this->hasMany(Tugas::class, 'dosen_id');
+    }
+
+    // Relasi jawaban yang dikirim mahasiswa
+    public function jawabanMahasiswa()
+    {
+        return $this->hasMany(Jawaban::class, 'mahasiswa_id');
+    }
 }

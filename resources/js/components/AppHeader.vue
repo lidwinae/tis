@@ -37,26 +37,23 @@ const isCurrentRoute = computed(() => (url: string) => page.url === url);
 const activeItemStyles = computed(
     () => (url: string) => (isCurrentRoute.value(url) ? 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100' : ''),
 );
+const isLoggedIn = computed(() => !!auth.value?.user);
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'Home',
+        href: '/home',
         icon: LayoutGrid,
+    },
+    {
+        title: 'Tugas',
+        href: '/tugas',
+        icon: BookOpen,
     },
 ];
 
 const rightNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
-    },
+    
 ];
 </script>
 
@@ -108,7 +105,7 @@ const rightNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link :href="route('dashboard')" class="flex items-center gap-x-2">
+                <Link :href="route('home')" class="flex items-center gap-x-2">
                     <AppLogo />
                 </Link>
 
@@ -136,9 +133,6 @@ const rightNavItems: NavItem[] = [
 
                 <div class="ml-auto flex items-center space-x-2">
                     <div class="relative flex items-center space-x-1">
-                        <Button variant="ghost" size="icon" class="group h-9 w-9 cursor-pointer">
-                            <Search class="size-5 opacity-80 group-hover:opacity-100" />
-                        </Button>
 
                         <div class="hidden space-x-1 lg:flex">
                             <template v-for="item in rightNavItems" :key="item.title">
@@ -161,25 +155,34 @@ const rightNavItems: NavItem[] = [
                         </div>
                     </div>
 
-                    <DropdownMenu>
-                        <DropdownMenuTrigger :as-child="true">
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                class="relative size-10 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary"
-                            >
-                                <Avatar class="size-8 overflow-hidden rounded-full">
-                                    <AvatarImage v-if="auth.user.avatar" :src="auth.user.avatar" :alt="auth.user.name" />
-                                    <AvatarFallback class="rounded-lg bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white">
-                                        {{ getInitials(auth.user?.name) }}
-                                    </AvatarFallback>
-                                </Avatar>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" class="w-56">
-                            <UserMenuContent :user="auth.user" />
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <template v-if="isLoggedIn">
+    <DropdownMenu>
+      <DropdownMenuTrigger :as-child="true">
+        <Button
+          variant="ghost"
+          size="icon"
+          class="relative size-10 ml-4 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary"
+        >
+          <Avatar class="size-8 overflow-hidden rounded-full">
+            <AvatarImage v-if="auth.user.avatar" :src="auth.user.avatar" :alt="auth.user.name" />
+            <AvatarFallback class="rounded-lg bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white">
+              {{ getInitials(auth.user?.name) }}
+            </AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" class="w-56">
+        <UserMenuContent :user="auth.user" />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  </template>
+  <template v-else>
+    <div class="flex gap-2">
+      <Button as-child variant="outline" class="rounded-full bg-[#000000] px-8 py-2 text-white transition-colors hover:bg-[#bababa]">
+        <Link :href="route('login')">Login</Link>
+      </Button>
+    </div>
+  </template>
                 </div>
             </div>
         </div>
