@@ -5,6 +5,8 @@ import { Head, Link } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
+
+
 interface Tugas {
     id: number;
     judul: string;
